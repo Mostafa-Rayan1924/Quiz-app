@@ -13,7 +13,6 @@ export default function App() {
   const [selectedValue, setSelectedValue] = useState(
     data[questCount]?.answer_1 || ""
   );
-  let [reviewAnswers, setReviewAnswers] = useState("");
 
   // Update the selectedValue when the question changes
   useEffect(() => {
@@ -25,8 +24,10 @@ export default function App() {
       setTimer(7);
     } else if (category === "CSS") {
       setTimer(15);
-    } else {
+    } else if (category === "JS") {
       setTimer(30);
+    } else {
+      setTimer(0);
     }
   }, [questCount]);
 
@@ -36,7 +37,6 @@ export default function App() {
   };
 
   const handleSubmit = () => {
-    setTimer(30); // Reset timer for the next question
     if (selectedValue === data[questCount]?.right_answer) {
       setCorrectAnsCount((prev) => prev + 1);
     }
@@ -58,7 +58,6 @@ export default function App() {
       document.querySelector(".button")?.click(); // Auto-submit when timer hits 0
     }
   }, [timer]);
-
   return (
     <div className="mx-3 max-w-screen-md bg-gray-100 sm:mx-auto p-4 rounded mt-16 sm:mt-[100px]">
       <Header />
@@ -68,9 +67,9 @@ export default function App() {
         selectedValue={selectedValue}
         correctAnsCount={correctAnsCount}
         show={show}
-        reviewAnswers={reviewAnswers}
       />
-      <Footer timer={timer} />
+
+      <Footer show={show} timer={timer} />
     </div>
   );
 }
